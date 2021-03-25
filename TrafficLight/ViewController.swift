@@ -12,7 +12,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var lightsStackView: UIStackView!
     @IBOutlet weak var startButton: UIButton!
     
-    private var light: Lights = .red
+    
+    private var index = 0
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +22,8 @@ class ViewController: UIViewController {
             view.alpha = 0.3
         }
         startButton.layer.cornerRadius = 35
+        
+        index = lightsStackView.arrangedSubviews.count - 1
     }
     
     override func viewWillLayoutSubviews() {
@@ -31,39 +35,17 @@ class ViewController: UIViewController {
     
     @IBAction func startButtonPressed() {
         startButton.setTitle("NEXT", for: .normal)
-        switchingLights()
-    }
-    
-    
-}
-    
-    
-
-extension ViewController {
-    
-    enum Lights {
-        case red
-        case yellow
-        case green
-    }
-    
-    private func switchingLights() {
-        switch light {
-        case .red:
-            lightsStackView.arrangedSubviews[0].alpha = 1
-            lightsStackView.arrangedSubviews[1].alpha = 0.3
-            lightsStackView.arrangedSubviews[2].alpha = 0.3
-            light = .yellow
-        case .yellow:
-            lightsStackView.arrangedSubviews[0].alpha = 0.3
-            lightsStackView.arrangedSubviews[1].alpha = 1
-            lightsStackView.arrangedSubviews[2].alpha = 0.3
-            light = .green
-        case .green:
-            lightsStackView.arrangedSubviews[0].alpha = 0.3
-            lightsStackView.arrangedSubviews[1].alpha = 0.3
-            lightsStackView.arrangedSubviews[2].alpha = 1
-            light = .red
+        
+        lightsStackView.arrangedSubviews[index].alpha = 0.3
+        
+        if index >= lightsStackView.arrangedSubviews.count - 1 {
+            index = 0
+        } else {
+            index += 1
         }
+        
+        lightsStackView.arrangedSubviews[index].alpha = 1
     }
+    
 }
+    
